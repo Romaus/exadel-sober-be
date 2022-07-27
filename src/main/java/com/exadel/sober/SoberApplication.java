@@ -9,5 +9,4 @@ public class SoberApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SoberApplication.class, args);
 	}
-
 }
