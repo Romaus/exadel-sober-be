@@ -1,10 +1,11 @@
 package com.exadel.sober.repositories;
 
 import com.exadel.sober.models.User;
-import org.springframework.data.repository.CrudRepository;
-//import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
-    User findByName(String name);
-    boolean existsByName(String name);
+public interface UserRepository {
+
+    List<User> findAll();
+    User save(User newUser);
+    User getUserByEmail(String email);
 }

@@ -1,25 +1,28 @@
 package com.exadel.sober.controllers;
 
-import com.exadel.sober.repositories.AddictionRepository;
 import com.exadel.sober.models.Addiction;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.exadel.sober.repositoriesImplemetation.AddictionRepositoryImpl;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path="/addiction")
+@RequestMapping(path="/addictions")
 public class AddictionController {
-    @Autowired
-    private AddictionRepository addictionRepository;
+    private AddictionRepositoryImpl addictionRepository;
+    public AddictionController(AddictionRepositoryImpl addictionRepository) {
+        this.addictionRepository = addictionRepository;
+    }
 
-    @PostMapping(path="/add")
-    public @ResponseBody Iterable<Addiction> addNewAddiction (@RequestBody Addiction newAddiction) {
+    @PostMapping()
+    public @ResponseBody List<Addiction> addNewAddiction (@RequestBody Addiction newAddiction) {
         addictionRepository.save(newAddiction);
         return addictionRepository.findAll();
     }
 
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<Addiction> getAllAddiction() {
+    @GetMapping()
+    public @ResponseBody List<Addiction> getAllAddiction() {
         return addictionRepository.findAll();
     }
 }
