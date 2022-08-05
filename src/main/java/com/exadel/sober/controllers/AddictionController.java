@@ -1,7 +1,9 @@
 package com.exadel.sober.controllers;
 
 import com.exadel.sober.models.Addiction;
-import com.exadel.sober.repositoriesImplemetation.AddictionRepositoryImpl;
+import com.exadel.sober.services.AddictionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,19 +12,23 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(path="/addictions")
 public class AddictionController {
-    private AddictionRepositoryImpl addictionRepository;
-    public AddictionController(AddictionRepositoryImpl addictionRepository) {
-        this.addictionRepository = addictionRepository;
-    }
-
-    @PostMapping()
-    public @ResponseBody List<Addiction> addNewAddiction (@RequestBody Addiction newAddiction) {
-        addictionRepository.save(newAddiction);
-        return addictionRepository.findAll();
+    private AddictionService addictionService;
+    public AddictionController(AddictionService addictionService) {
+        this.addictionService = addictionService;
     }
 
     @GetMapping()
-    public @ResponseBody List<Addiction> getAllAddiction() {
-        return addictionRepository.findAll();
+    ResponseEntity<List<Addiction>> getAllAddiction() {
+        return new ResponseEntity<List<Addiction>>(
+                addictionService.findAllAddiction(),
+                HttpStatus.OK);
+    }
+
+    @PostMapping()
+    ResponseEntity<List<Addiction>> addNewAddiction(@RequestBody Addiction newAddiction) {
+        addictionService.addNewAddiction(newAddiction);
+        return new ResponseEntity<List<Addiction>>(
+                addictionService.findAllAddiction(),
+                HttpStatus.OK);
     }
 }

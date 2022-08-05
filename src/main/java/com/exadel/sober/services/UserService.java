@@ -1,10 +1,10 @@
 package com.exadel.sober.services;
 
+import com.exadel.sober.exceptions.BadUserCredentialException;
+import com.exadel.sober.exceptions.NoSuchUserExistsException;
+import com.exadel.sober.exceptions.UserAlreadyExistsException;
 import com.exadel.sober.models.User;
-import com.exadel.sober.repositories.PromiseRepository;
 import com.exadel.sober.repositories.UserRepository;
-import com.exadel.sober.repositoriesImplemetation.AddictionRepositoryImpl;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -16,7 +16,6 @@ import java.util.Objects;
 public class UserService {
 
     private UserRepository userRepository;
-
     private PromiseService promiseService;
 
     public UserService(UserRepository userRepository,
@@ -26,45 +25,34 @@ public class UserService {
     }
 
     public User addNewUser(User newUser) {
+        if (this.existUserByEmail(newUser.getEmail()) != null) {
+            throw new UserAlreadyExistsException("User with such e-mail has already registered");
+        }
         User userForSave = newUser;
         userForSave.setPassword(get_SHA_512_SecurePassword(newUser.getPassword()));
         userRepository.save(userForSave);
         userForSave.setPassword(null);
         return userForSave;
     }
-
     public User login(User loginUser) {
-
-        if (checkCredential(loginUser)){
-            User userForResponse = userRepository.getUserByEmail(loginUser.getEmail());
-            userForResponse.setPassword(null);
-            userForResponse.setPromises(promiseService.getPromisesForClient(userForResponse.getUserId()));
-            return userForResponse;
-        }
-        else {
-            return null;
+        User userDB = this.existUserByEmail(loginUser.getEmail());
+        if (userDB == null) {
+            throw new NoSuchUserExistsException("User with such e-mail doesn\'t exist");
+        } else if(!checkCredential(loginUser, userDB)) {
+            throw new BadUserCredentialException("You entered wrong credentials");
+        } else {
+            userDB.setPassword(null);
+            userDB.setPromises(promiseService.getPromisesForClient(userDB.getUserId()));
+            return userDB;
         }
     }
-
-    public boolean existUserByEmail(String email) {
-        if (userRepository.getUserByEmail(email) != null) {
-           return true;
-        } else {
-            return false;
-        }
+    public User existUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
     }
 
-    private boolean checkCredential(User loginUser) {
-        if (!existUserByEmail(loginUser.getEmail())) {
-            return false;
-        }
-        User user = userRepository.getUserByEmail(loginUser.getEmail());
-        if (Objects.equals(user.getEmail(), loginUser.getEmail())
-                && Objects.equals(user.getPassword(), get_SHA_512_SecurePassword(loginUser.getPassword()))) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean checkCredential(User loginUser, User userDB) {
+        return (Objects.equals(userDB.getEmail(), loginUser.getEmail())
+                && Objects.equals(userDB.getPassword(), get_SHA_512_SecurePassword(loginUser.getPassword())));
     }
     private String get_SHA_512_SecurePassword(String passwordToHash){
         String salt = "secureSober";

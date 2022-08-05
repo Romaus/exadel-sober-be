@@ -4,8 +4,6 @@ import com.exadel.sober.models.User;
 import java.util.List;
 
 public interface UserRepository {
-
-    List<User> findAll();
-    User save(User newUser);
+    void save(User newUser);
     User getUserByEmail(String email);
 }

@@ -13,6 +13,6 @@ public class Addiction {
 
     private String description;
 
-    List<Promise> promises;
+    private List<Promise> promises;
 
 }

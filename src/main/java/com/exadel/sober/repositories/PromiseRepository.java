@@ -8,15 +8,9 @@ import java.sql.ResultSet;
 import java.util.List;
 
 public interface PromiseRepository {
-    RowMapper<Promise> ROW_MAPPER_PROMISE = (ResultSet resultSet, int rowNum) -> {
-        Promise promise = new Promise();
-        promise.setExpiredDate(resultSet.getTimestamp("promise.expired_date"));
-        promise.setPromiseId(resultSet.getInt("promise.promise_id"));
-        promise.setName(resultSet.getString("addiction.name"));
-        return promise;
-    };
-
-    Promise save(Promise promise);
+    void save(Promise promise);
+    Promise findPromiseByPromiseId(Integer promiseId);
     List<Promise> findAllByUserId(Integer userId);
     List<Reason> findAllReasonsByPromiseId(Integer promiseId);
+    void deletePromiseByPromiseId(Integer promiseId);
 }

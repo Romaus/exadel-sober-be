@@ -18,6 +18,6 @@ public class Promise {
 
     private Timestamp expiredDate;
 
-    List<Reason> reasons;
+    private List<Reason> reasons;
 
 }

@@ -5,11 +5,11 @@ import com.exadel.sober.repositories.UserRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -17,20 +17,12 @@ public class UserRepositoryImpl implements UserRepository {
     public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
     @Override
-    public List<User> findAll() {
-        String sql = "select * from user ";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper(User.class));
-    }
-
-    @Override
-    public User save(User newUser) {
-        String name = newUser.getName();
-        String email = newUser.getEmail();
-        String password = newUser.getPassword();
-        int user_id = jdbcTemplate.update("insert user (name, email, password) values (?, ?, ?)", name, email, password);
-        return null;
+    public void save(User newUser) {
+        jdbcTemplate.update("insert user (name, email, password) values (?, ?, ?)",
+                newUser.getName(),
+                newUser.getEmail(),
+                newUser.getPassword());
     }
 
     @Override

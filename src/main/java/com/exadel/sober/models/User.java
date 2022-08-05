@@ -14,6 +14,6 @@ public class User {
 
     private String password;
 
-    List<Promise> promises;
+    private List<Promise> promises;
 
 }
