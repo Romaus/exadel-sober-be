@@ -5,11 +5,8 @@ import com.exadel.sober.models.Reason;
 import com.exadel.sober.repositories.PromiseRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository

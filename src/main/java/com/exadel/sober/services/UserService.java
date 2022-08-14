@@ -46,7 +46,7 @@ public class UserService {
             return userDB;
         }
     }
-    public User existUserByEmail(String email) {
+    private User existUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
 

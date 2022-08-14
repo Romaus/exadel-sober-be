@@ -1,5 +1,6 @@
 package com.exadel.sober.repositoriesImplemetation;
 
+import com.exadel.sober.exceptions.CannotAddReasonException;
 import com.exadel.sober.models.Reason;
 import com.exadel.sober.repositories.ReasonRepository;
 import org.springframework.jdbc.core.JdbcTemplate;

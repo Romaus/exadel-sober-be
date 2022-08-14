@@ -27,11 +27,9 @@ public class PromiseController {
         );
     }
     @PostMapping()
-    ResponseEntity<List<Promise>> addPromiseByUserId (@RequestParam Integer userId,
-                                                      @RequestParam Integer addictionId,
-                                                      @RequestParam Integer days) {
+    ResponseEntity<List<Promise>> addPromiseByUserId (@RequestBody Promise newPromise) {
         return new ResponseEntity<List<Promise>>(
-                promiseService.addNewPromiseByUserId(userId, addictionId, days),
+                promiseService.addNewPromiseByUserId(newPromise),
                 HttpStatus.OK
         );
     }
