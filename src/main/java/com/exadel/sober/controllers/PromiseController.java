@@ -20,28 +20,28 @@ public class PromiseController {
     }
 
     @GetMapping()
-    ResponseEntity<List<Promise>> getPromisesByUserId (@RequestParam Integer userId) {
+    public ResponseEntity<List<Promise>> getPromisesByUserId (@RequestParam Integer userId) {
         return new ResponseEntity<List<Promise>>(
                 promiseService.getPromisesForClient(userId),
                 HttpStatus.OK
         );
     }
     @PostMapping()
-    ResponseEntity<List<Promise>> addPromiseByUserId (@RequestBody Promise newPromise) {
+    public ResponseEntity<List<Promise>> addPromiseByUserId (@RequestBody Promise newPromise) {
         return new ResponseEntity<List<Promise>>(
                 promiseService.addNewPromiseByUserId(newPromise),
                 HttpStatus.OK
         );
     }
     @DeleteMapping()
-    ResponseEntity<List<Promise>> deletePromiseByPromiseId (@RequestParam Integer promiseId) {
+    public ResponseEntity<List<Promise>> deletePromiseByPromiseId (@RequestParam Integer promiseId) {
         return new ResponseEntity<List<Promise>>(
                 promiseService.deletePromise(promiseId),
                 HttpStatus.OK
         );
     }
     @PostMapping(path="/addReason")
-    ResponseEntity<List<Promise>> addReasonByPromiseId (@RequestBody Reason reason) {
+    public ResponseEntity<List<Promise>> addReasonByPromiseId (@RequestBody Reason reason) {
         return new ResponseEntity<>(
                 promiseService.addNewReasonForPromise(reason),
                 HttpStatus.OK

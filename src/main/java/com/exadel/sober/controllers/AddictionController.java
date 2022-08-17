@@ -18,14 +18,14 @@ public class AddictionController {
     }
 
     @GetMapping()
-    ResponseEntity<List<Addiction>> getAllAddiction() {
+    public ResponseEntity<List<Addiction>> getAllAddiction() {
         return new ResponseEntity<List<Addiction>>(
                 addictionService.findAllAddiction(),
                 HttpStatus.OK);
     }
 
     @PostMapping()
-    ResponseEntity<List<Addiction>> addNewAddiction(@RequestBody Addiction newAddiction) {
+    public ResponseEntity<List<Addiction>> addNewAddiction(@RequestBody Addiction newAddiction) {
         addictionService.addNewAddiction(newAddiction);
         return new ResponseEntity<List<Addiction>>(
                 addictionService.findAllAddiction(),

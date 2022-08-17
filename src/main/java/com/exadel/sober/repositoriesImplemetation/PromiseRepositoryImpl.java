@@ -51,6 +51,6 @@ public class PromiseRepositoryImpl implements PromiseRepository {
 
     @Override
     public void deletePromiseByPromiseId(Integer promiseId) {
-        jdbcTemplate.execute("delete from promise where promise_id ="+promiseId);
+        jdbcTemplate.update("delete from promise where promise_id =?", promiseId);
     }
 }

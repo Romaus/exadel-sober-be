@@ -1,8 +1,6 @@
 package com.exadel.sober.services;
 
-import com.exadel.sober.exceptions.BadUserCredentialException;
-import com.exadel.sober.exceptions.NoSuchUserExistsException;
-import com.exadel.sober.exceptions.UserAlreadyExistsException;
+import com.exadel.sober.exceptions.LoginErrorException;
 import com.exadel.sober.models.User;
 import com.exadel.sober.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class UserService {
 
     public User addNewUser(User newUser) {
         if (this.existUserByEmail(newUser.getEmail()) != null) {
-            throw new UserAlreadyExistsException("User with such e-mail has already registered");
+            throw new LoginErrorException("User with such e-mail has already registered");
         }
         User userForSave = newUser;
         userForSave.setPassword(get_SHA_512_SecurePassword(newUser.getPassword()));
@@ -37,9 +35,9 @@ public class UserService {
     public User login(User loginUser) {
         User userDB = this.existUserByEmail(loginUser.getEmail());
         if (userDB == null) {
-            throw new NoSuchUserExistsException("User with such e-mail doesn\'t exist");
+            throw new LoginErrorException("User with such e-mail doesn\'t exist");
         } else if(!checkCredential(loginUser, userDB)) {
-            throw new BadUserCredentialException("You entered wrong credentials");
+            throw new LoginErrorException("You entered wrong credentials");
         } else {
             userDB.setPassword(null);
             userDB.setPromises(promiseService.getPromisesForClient(userDB.getUserId()));

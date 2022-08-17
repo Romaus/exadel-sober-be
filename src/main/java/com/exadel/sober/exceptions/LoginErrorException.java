@@ -1,10 +1,10 @@
 package com.exadel.sober.exceptions;
 
-public class NoSuchUserExistsException extends RuntimeException{
+public class LoginErrorException extends RuntimeException {
 
     private String message;
 
-    public NoSuchUserExistsException (String msg) {
+    public LoginErrorException(String msg) {
         super(msg);
         this.message = msg;
     }

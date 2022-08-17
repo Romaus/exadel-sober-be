@@ -17,13 +17,13 @@ public class UserController {
     }
 
     @PostMapping()
-    ResponseEntity<User> addNewUser(@RequestBody User newUser) {
+    public ResponseEntity<User> addNewUser(@RequestBody User newUser) {
         return new ResponseEntity<User>(
                 userService.addNewUser(newUser),
                 HttpStatus.OK);
     }
     @PostMapping(path="/login")
-    ResponseEntity<User> LoginUser(@RequestBody User loginUser) {
+    public ResponseEntity<User> LoginUser(@RequestBody User loginUser) {
         return new ResponseEntity<User>(
                 userService.login(loginUser),
                 HttpStatus.OK);
